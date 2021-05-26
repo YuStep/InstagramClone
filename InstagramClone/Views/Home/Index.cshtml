@@ -1,0 +1,80 @@
+﻿@model ICollection<AppUserViewModel>
+    @{
+    ViewData["Title"] = "InstagramClone";
+    }
+
+<div style="display: flex; width: 100%; justify-content: center;">
+    <div id="top-users" style="font-family: Roboto; background-color: white;">
+        <p id="demo" style="        
+        display:flex;
+        font-size: 20px;
+        box-sizing:border-box;
+        margin: 0 auto;
+        border-radius: 50px;
+        width: 100%;
+        height:80px;
+        padding: 0 10px;
+        color:aquamarine;
+        background: rgb(63,94,251);
+        background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); justify-content:center; align-items:center;">До конца сессии</p>
+        <div style="font-size: 1.3em; align-self: center; margin-top: 1em;">Top users:</div>
+        @foreach (var i in Model)
+        {
+            <div style="display: flex;">
+                <div class="photo">
+                    <p><img src="@i.Picture" id="profile-photo" style="width: 10%; border-radius: 50%; border: 1px solid #e0e0e0;" /></p>
+                </div>
+                <div style="margin-top: 25px;">
+                    <div class="alias-style" style="margin-right: 20px; font-size: 1.3em;"><a href="/@i.Alias" style="text-decoration: none; color: black;">@i.Alias</a></div>
+                    <p class="margin-info" style="margin: 0;">
+                        <span>
+                            <span class="bold">@i.Posts.Count()</span> posts
+                        </span>
+                        <span>
+                            <span class="bold">@i.NumberOfFollowers</span> followers
+                        </span>
+                        <span>
+                            <span class="bold">@i.NumberOfFollowing</span> following
+                        </span>
+                    </p>
+                </div>
+            </div>
+        }
+
+
+        <script>
+            // Set the date we're counting down to
+            var countDownDate = new Date("Jul 25, 2021 15:15:15").getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                if (seconds % 2 == 0) {
+                    document.getElementById("demo").innerHTML = "До конца сессии осталось";
+                }
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        </script>
+    </div>
+</div>
+    
