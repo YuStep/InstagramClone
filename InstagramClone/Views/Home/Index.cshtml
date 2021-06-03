@@ -2,10 +2,38 @@
     @{
     ViewData["Title"] = "InstagramClone";
     }
+<style>
 
-<div style="display: flex; width: 100%; justify-content: center;">
-    <div id="top-users" style="font-family: Roboto; background-color: white;">
-        <p id="demo" style="        
+    li{
+        position: relative;
+        display: inline-block;
+        padding: 25px 30px;
+        margin: 40px 0;
+        color: #03e9f4;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: 0.5s;
+        letter-spacing: 4px;
+        border-radius:50px;
+        overflow: hidden;
+        margin-right: 50px;
+
+   
+    }
+    li:hover{
+        background: #03e9f4;
+        color: #050801;
+        box-shadow: 0 0 5px #03e9f4,
+                    0 0 25px #03e9f4,
+                    0 0 50px #03e9f4,
+                    0 0 200px #03e9f4;
+         -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+         border-radius:50px;
+    }
+</style>
+<div style="display: flex; width: 100%; justify-content: center;" >
+    <div id="top-users" style="font-family: Roboto; background-color: white;  width:500px;">
+        <p id="demo" style="
         display:flex;
         font-size: 20px;
         box-sizing:border-box;
@@ -18,9 +46,10 @@
         background: rgb(63,94,251);
         background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); justify-content:center; align-items:center;">До конца сессии</p>
         <div style="font-size: 1.3em; align-self: center; margin-top: 1em;">Top users:</div>
+        <div id= "data">
         @foreach (var i in Model)
         {
-            <div style="display: flex;">
+            <div id = "row" style="display: flex;">
                 <div class="photo">
                     <p><img src="@i.Picture" id="profile-photo" style="width: 10%; border-radius: 50%; border: 1px solid #e0e0e0;" /></p>
                 </div>
@@ -40,7 +69,7 @@
                 </div>
             </div>
         }
-
+        </div>
 
         <script>
             // Set the date we're counting down to
@@ -74,6 +103,41 @@
                     document.getElementById("demo").innerHTML = "EXPIRED";
                 }
             }, 1000);
+        </script>
+        <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#data").after(
+                    '<div class="pagination" id="pagination"><ul id="nav_ul"></ul></div>'
+                );
+                var rowsShown = 4;
+                var rowsTotal = $("#data #row").length;
+                var numPages = rowsTotal / rowsShown;
+
+                for (i = 0; i < numPages; i++) {
+                    var pageNum = i + 1;
+                    $("#pagination").append(
+                        '<li><a rel="' + i + '">' + pageNum + "</a></li>"
+                    );
+                }
+
+                $("#data #row").hide();
+                $("#data #row").slice(0, rowsShown).show();
+                $("#pagination a:first").addClass("active");
+                $("#pagination a").bind("click", function () {
+                    $("#pagination a").removeClass("active");
+                    $(this).addClass("active");
+                    var currPage = $(this).attr("rel");
+                    var startItem = currPage * rowsShown;
+                    var endItem = startItem + rowsShown;
+                    $("#data #row")
+                        .css("opacity", "0.0")
+                        .hide()
+                        .slice(startItem, endItem)
+                        .css("display", "flex")
+                        .animate({ opacity: 1 }, 600);
+                });
+            });
         </script>
     </div>
 </div>
